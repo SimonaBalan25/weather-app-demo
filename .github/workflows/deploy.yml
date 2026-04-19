@@ -1,9 +1,9 @@
 name: Build and Deploy to AKS
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   IMAGE_NAME: weather-app
@@ -50,7 +50,7 @@ jobs:
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Deploy to AKS
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           echo "Checking if AKS cluster exists..."
           if ! az aks show --resource-group "${{ secrets.RESOURCE_GROUP }}" --name "${{ secrets.CLUSTER_NAME }}" --output table; then
