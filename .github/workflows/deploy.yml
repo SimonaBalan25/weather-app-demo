@@ -40,13 +40,14 @@ jobs:
           inlineScript: echo "Azure CLI setup complete"
 
       - name: Build and push Docker image to ACR
+        working-directory: WeatherApp
         run: |
           IMAGE_TAG=${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
           az acr build \
             --registry ${{ secrets.ACR_NAME }} \
             --image ${{ env.IMAGE_NAME }}:${{ github.sha }} \
             --file Dockerfile \
-            WeatherApp
+            .
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Deploy to AKS
